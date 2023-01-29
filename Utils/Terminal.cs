@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using GameConsole;
+﻿using UnityEngine;
 
 namespace RogueKill.Utils
 {
     public static class Terminal
     {
-        static GameObject terminalTemplate = null;
+        private static GameObject terminalTemplate = null;
         public static GameObject SpawnTerminal(Vector3 localPos, Transform parent, Color color)
         {
             if (terminalTemplate == null)
@@ -20,7 +16,7 @@ namespace RogueKill.Utils
             }
             if (terminalTemplate != null)
             {
-                GameObject terminal = GameObject.Instantiate(terminalTemplate);
+                GameObject terminal = Object.Instantiate(terminalTemplate);
                 if (parent != null)
                 {
                     terminal.transform.parent = parent;
@@ -32,7 +28,6 @@ namespace RogueKill.Utils
                     MeshRenderer meshRenderer = terminal.GetComponentInChildren<MeshRenderer>();
                     meshRenderer.material.color = color;
                 }
-                GameConsole.Console.print(terminal.transform.position);
                 return terminal;
             }
             return null;

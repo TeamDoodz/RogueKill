@@ -1,9 +1,7 @@
-﻿using BepInEx;
+﻿using System.Collections.Generic;
+using BepInEx;
 using HarmonyLib;
-using RogueKill.Utils;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace RogueKill
 {
@@ -18,7 +16,7 @@ namespace RogueKill
         }
         private void Start()
         {
-            Harmony harmony = new Harmony("UltraCrypt");
+            Harmony harmony = new("UltraCrypt");
             harmony.PatchAll();
         }
         private void Update()
@@ -28,7 +26,8 @@ namespace RogueKill
                 IEnumerable<AssetBundle> bundles = AssetBundle.GetAllLoadedAssetBundles();
                 foreach (AssetBundle bundle in bundles)
                 {
-                    if (bundle.name.Contains("common")){
+                    if (bundle.name.Contains("common"))
+                    {
                         commonBundle = bundle;
                     }
                 }
