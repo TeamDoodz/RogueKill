@@ -33,12 +33,6 @@ namespace RogueKill
                     }
                 }
             }
-            if(Input.GetKeyDown(KeyCode.L))
-            {
-                Vector3 localPos = new Vector3(-1f, 1f, 0f);
-                Color color = new Color(0.6f, 0.6f, 0.6f);
-                GameObject terminal = Terminal.SpawnTerminal(localPos, null, color);
-            }
         }
     }
 }

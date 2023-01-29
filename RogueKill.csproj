@@ -30,4 +30,8 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Skill Tree\" />
+  </ItemGroup>
 </Project>
