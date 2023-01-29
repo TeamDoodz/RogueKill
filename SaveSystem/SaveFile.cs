@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using RogueKill.Utils;
 using UnityEngine;
 
 namespace RogueKill.SaveSystem
@@ -29,11 +30,15 @@ namespace RogueKill.SaveSystem
 
         public void Save()
         {
-            SaveDataConverter converter = new(Array.Empty<Type>()); // dont specify any types since we are just saving
-            using (StreamWriter writer = File.CreateText(FilePath))
+            Plugin.logger.LogInfo($"Saving to {FilePath}");
+            Catcher.Try(() =>
             {
-                converter.WriteJson(new JsonTextWriter(writer), Data, JsonSerializer.CreateDefault());
-            }
+                SaveDataConverter converter = new(Array.Empty<Type>()); // dont specify any types since we are just saving
+                using (StreamWriter writer = File.CreateText(FilePath))
+                {
+                    converter.WriteJson(new JsonTextWriter(writer), Data, JsonSerializer.CreateDefault());
+                }
+            }, "Save Data", Plugin.logger);
         }
 
         public static SaveFile Load(string name)
@@ -45,6 +50,8 @@ namespace RogueKill.SaveSystem
                 retVal.Data = new SaveData(SaveUtil.AllModules);
                 return retVal;
             }
+
+            Plugin.logger.LogInfo($"Loading save data from {retVal.FilePath}");
 
             SaveDataConverter converter = new(Array.Empty<Type>()); // dont specify any types because why not
             using (StreamReader reader = File.OpenText(retVal.FilePath))
