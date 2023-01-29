@@ -28,7 +28,6 @@ namespace RogueKill.Utils
                     MeshRenderer meshRenderer = terminal.GetComponentInChildren<MeshRenderer>();
                     meshRenderer.material.color = color;
                 }
-                GameConsole.Console.print(terminal.transform.position);
                 return terminal;
             }
             return null;
