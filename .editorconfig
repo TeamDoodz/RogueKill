@@ -1,4 +1,4 @@
-[*.cs]
+[*.cs] # CSharp
 
 # Indentation
 
@@ -20,3 +20,10 @@ csharp_new_line_before_finally = true
 csharp_new_line_before_members_in_object_initializers = true
 csharp_new_line_before_members_in_anonymous_types = true
 csharp_new_line_between_query_expression_clauses = true
+
+[*.xml, *.csproj, NuGet.Config] # XML
+
+# Indentation
+
+indent_style = space
+indent_size = 2
