@@ -1,9 +1,4 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using GameConsole;
-using RogueKill.Utils;
+﻿using RogueKill.Utils;
 
 namespace RogueKill.Currency
 {
@@ -15,11 +10,11 @@ namespace RogueKill.Currency
 
         public static void AddCurrency(bool bossLevel)
         {
-            if(CustomSaveData.ReadFromSave("credit") != null)
+            if (CustomSaveData.ReadFromSave("credit") != null)
             {
-                currentAmount = int.Parse(CustomSaveData.ReadFromSave("credit"));  
+                currentAmount = int.Parse(CustomSaveData.ReadFromSave("credit"));
             }
-            
+
             StatsManager stats = MonoSingleton<StatsManager>.Instance;
             int kills = stats.kills;
 
@@ -27,23 +22,25 @@ namespace RogueKill.Currency
             {
                 currentAmount = 0;
             }
-            
-            int addedAmount = baseAmount + (levelsCompleted * 25) + (kills);
-            
-            if (bossLevel) {
+
+            int addedAmount = baseAmount + (levelsCompleted * 25) + kills;
+
+            if (bossLevel)
+            {
                 addedAmount += 100;
             }
-            
+
             currentAmount += addedAmount;
             CustomSaveData.WriteToSave("credit", currentAmount.ToString());
         }
-        public static void RemoveCurrency(int amount) {
-            
+        public static void RemoveCurrency(int amount)
+        {
+
             if (CustomSaveData.ReadFromSave("credit") != null)
             {
                 currentAmount = int.Parse(CustomSaveData.ReadFromSave("credit"));
             }
-            
+
             currentAmount -= amount;
             CustomSaveData.WriteToSave("credit", currentAmount.ToString());
         }
