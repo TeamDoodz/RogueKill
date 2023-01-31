@@ -1,4 +1,4 @@
-﻿using RogueKill.Utils;
+﻿using RogueKill.SaveSystem;
 
 namespace RogueKill.Currency
 {
@@ -6,22 +6,13 @@ namespace RogueKill.Currency
     {
         public static int baseAmount = 100;
         public static int levelsCompleted = 0;
-        public static int currentAmount = 0;
 
         public static void AddCurrency(bool bossLevel)
         {
-            if (CustomSaveData.ReadFromSave("credit") != null)
-            {
-                currentAmount = int.Parse(CustomSaveData.ReadFromSave("credit"));
-            }
+            CurrencyData data = SaveFile.Main.Data.GetModule<CurrencyData>();
 
             StatsManager stats = MonoSingleton<StatsManager>.Instance;
             int kills = stats.kills;
-
-            if (currentAmount <= 0)
-            {
-                currentAmount = 0;
-            }
 
             int addedAmount = baseAmount + (levelsCompleted * 25) + kills;
 
@@ -30,19 +21,13 @@ namespace RogueKill.Currency
                 addedAmount += 100;
             }
 
-            currentAmount += addedAmount;
-            CustomSaveData.WriteToSave("credit", currentAmount.ToString());
+            data.Credits += addedAmount;
         }
         public static void RemoveCurrency(int amount)
         {
+            CurrencyData data = SaveFile.Main.Data.GetModule<CurrencyData>();
 
-            if (CustomSaveData.ReadFromSave("credit") != null)
-            {
-                currentAmount = int.Parse(CustomSaveData.ReadFromSave("credit"));
-            }
-
-            currentAmount -= amount;
-            CustomSaveData.WriteToSave("credit", currentAmount.ToString());
+            data.Credits -= amount;
         }
     }
 }

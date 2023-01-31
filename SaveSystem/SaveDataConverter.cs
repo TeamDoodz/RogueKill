@@ -51,9 +51,11 @@ namespace RogueKill.SaveSystem
             writer.WriteStartObject();
             foreach (SaveSystemModule module in value.Modules)
             {
+                writer.WriteComment(module.GetType().FullName);
                 writer.WritePropertyName(module.Name);
                 module.SaveData(writer, serializer);
             }
+            writer.WriteEndObject();
         }
 
         public SaveDataConverter(IEnumerable<Type> moduleTypes)

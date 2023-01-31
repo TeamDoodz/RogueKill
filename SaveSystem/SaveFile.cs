@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using RogueKill.Utils;
@@ -33,10 +32,14 @@ namespace RogueKill.SaveSystem
             Plugin.logger.LogInfo($"Saving to {FilePath}");
             Catcher.Try(() =>
             {
+                if (!Directory.Exists(GlobalSavePath))
+                {
+                    Directory.CreateDirectory(GlobalSavePath);
+                }
                 SaveDataConverter converter = new(Array.Empty<Type>()); // dont specify any types since we are just saving
                 using (StreamWriter writer = File.CreateText(FilePath))
                 {
-                    converter.WriteJson(new JsonTextWriter(writer), Data, JsonSerializer.CreateDefault());
+                    converter.WriteJson(new JsonTextWriter(writer) { Formatting = Formatting.Indented }, Data, JsonSerializer.CreateDefault());
                 }
             }, "Save Data", Plugin.logger);
         }

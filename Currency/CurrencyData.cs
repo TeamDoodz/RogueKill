@@ -1,6 +1,7 @@
 ﻿using System;
+using RogueKill.SaveSystem;
 
-namespace RogueKill.SaveSystem
+namespace RogueKill.Currency
 {
     /// <summary>
     /// Manages serialization for currency data.
@@ -25,11 +26,7 @@ namespace RogueKill.SaveSystem
                 }
                 return (long)Data;
             }
-            set
-            {
-                Data = value;
-                SetDirty();
-            }
+            set => Data = Math.Max(value, 0L);
         }
     }
 }

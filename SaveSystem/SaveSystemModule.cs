@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using RogueKill.Utils;
 
 namespace RogueKill.SaveSystem
 {
@@ -8,6 +9,8 @@ namespace RogueKill.SaveSystem
     /// </summary>
     public abstract class SaveSystemModule
     {
+        private object _data;
+
         /// <summary>
         /// The type that this instance will expect during serialization.
         /// </summary>
@@ -16,19 +19,30 @@ namespace RogueKill.SaveSystem
         /// <summary>
         /// The data that this instance composes. This can be <see langword="null"/>.
         /// </summary>
-        protected object Data { get; set; }
+        protected object Data
+        {
+            get
+            {
+                EnsureValue();
+                return _data;
+            }
+
+            set => _data = value;
+        }
 
         /// <summary>
         /// The name to use when saving this instance to the save file.
         /// </summary>
         public abstract string Name { get; }
 
+        /*
         public bool IsDirty { get; set; }
 
         public void SetDirty()
         {
-
+            IsDirty = true;
         }
+        */
 
         /// <summary>
         /// Saves this instance's data using the provided writer.
@@ -48,6 +62,21 @@ namespace RogueKill.SaveSystem
         public virtual void LoadData(JsonReader reader, JsonSerializer serializer)
         {
             Data = serializer.Deserialize(reader, DataType);
+            EnsureValue();
+        }
+
+        /// <summary>
+        /// If <see cref="Data"/> is null and <see cref="DataType"/> is a value type, attempts to assign a value to <see cref="Data"/>.
+        /// </summary>
+        protected void EnsureValue()
+        {
+            if (_data == null && DataType.IsValueType)
+            {
+                Catcher.Try(() =>
+                {
+                    Data = Activator.CreateInstance(DataType);
+                }, "Assign Value To Data", Plugin.logger);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RogueKill.Currency;
 
 namespace RogueKill.SaveSystem
 {
